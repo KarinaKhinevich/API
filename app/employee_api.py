@@ -9,7 +9,7 @@ from flask_restful import  Resource, reqparse
   
 
 
-class Employee_abi(Resource):
+class Employee_api(Resource):
     def convert_to_json(self, array):
         result = []
         for item in array:

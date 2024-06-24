@@ -12,6 +12,8 @@ api = Api(app)
 
 
 
-from app import  employee_abi , models
+from app import   employee_api, models, office_api, room_api
 
-api.add_resource(employee_abi.Employee_abi, "/employee", "/employee/")
+api.add_resource(employee_api.Employee_api, "/employee", "/employee/")
+api.add_resource(office_api.Office_api, "/office", "/office/")
+api.add_resource(room_api.Room_api, "/room", "/room/")

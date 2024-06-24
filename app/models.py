@@ -8,18 +8,35 @@ from dataclasses import dataclass
 class Office(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
     address: so.Mapped[str] = so.mapped_column(sa.String(120), index=True, unique=True)
-   
+    title: so.Mapped[str] = so.mapped_column(sa.String(120), index=True, unique=True)
+
     rooms: so.WriteOnlyMapped['Room'] = so.relationship(back_populates='office')
+
+    def serialize(self):
+        return {
+            'id': self.id, 
+            'address': self.address,
+            'title': self.title,
+        }
+
     def __repr__(self):
-        return '<Office at {}>'.format(self.address)
+        return '<Office {} at {}>'.format(self.title, self.address)
 
 
 class Room(db.Model):
     id: so.Mapped[int] = so.mapped_column(primary_key=True)
-    numder: so.Mapped[int] = so.mapped_column(sa.Integer, index = True)
+    number: so.Mapped[int] = so.mapped_column(sa.Integer, index = True)
     office_id: so.Mapped[int] = so.mapped_column(sa.ForeignKey(Office.id),index = True)
+
     seat: so.WriteOnlyMapped['Seat'] = so.relationship(back_populates='room')
     office: so.Mapped[Office] = so.relationship(back_populates='rooms')
+
+    def serialize(self):
+        return {
+            'id': self.id, 
+            'number': self.number,
+            'office_id': self.office_id,
+        }
 
     def __repr__(self):
         return '<Room #{}>'.format(self.number)
